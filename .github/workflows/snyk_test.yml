@@ -8,14 +8,11 @@ jobs:
       - name: Run Snyk to check for vulnerabilities
         uses: snyk/actions/node@master
         continue-on-error: true
+        
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-          
-      - name: Install Snyk CLI
-        run: npm install -g snyk
-        
-      - name: run container test
-        run: snyk container test node:18.13.0
-        
-      - name: snyk monitor
-        run: snyk monitor
+        with:
+          command: container test node:18.13.0
+      - name: Snyk monitor
+        with:
+          command: monitor
