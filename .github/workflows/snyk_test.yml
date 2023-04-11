@@ -13,6 +13,3 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           command: container test node:18.13.0
-      - name: Snyk monitor
-        with:
-          command: monitor
