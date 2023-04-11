@@ -11,4 +11,4 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          command: container test
+          command: container test node:18.13.0
