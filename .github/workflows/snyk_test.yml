@@ -13,6 +13,9 @@ jobs:
           
       - name: Install Snyk CLI
         run: npm install -g snyk
+      
+      - name: snyk authenticate
+        run: snyk auth
         
       - name: run container test
         run: snyk container test node:18.13.0
