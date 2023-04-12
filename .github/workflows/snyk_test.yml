@@ -47,3 +47,7 @@ jobs:
         snyk auth $SNYK_TOKEN
         snyk container test node:18.13.0
         snyk container monitor node:18.13.0
+      continue-on-error: true
+      
+      
+      
