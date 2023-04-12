@@ -1,16 +1,57 @@
-name: Example workflow using Snyk
-on: push
-jobs:
+name: Snyk Vulnerability Scan
 
-  security:
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  snyk_oss_scan:
+    name: Snyk OSS Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true
-        
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          command: container test node:18.13.0
+    - name: Check out repository
+      uses: actions/checkout@v2
+   
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run Snyk OSS scan
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: |
+        npm install -g snyk
+        snyk auth $SNYK_TOKEN
+        snyk test --all-projects
+        snyk monitor --all-projects
+
+  snyk_container_scan:
+    name: Snyk Container Scan
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker-ce
+
+    - name: Build Docker image
+      run: |
+        docker build -t node:18.13.0 .
+
+    - name: Run Snyk Container scan
+      env:
+        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      run: |
+        npm install -g snyk
+        snyk auth $SNYK_TOKEN
+        snyk container test node:18.13.0
+        snyk container monitor node:18.13.0
