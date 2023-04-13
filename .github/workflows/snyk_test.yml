@@ -27,7 +27,6 @@ jobs:
         snyk auth $SNYK_TOKEN
         snyk test --all-projects
         snyk monitor --all-projects
-      continue-on-error: true
 
   snyk_container_scan:
     name: Snyk Container Scan
@@ -44,7 +43,6 @@ jobs:
         snyk auth $SNYK_TOKEN
         snyk container test node:18.13.0
         snyk container monitor node:18.13.0
-      continue-on-error: true
       
       
       
