@@ -22,11 +22,13 @@ jobs:
     - name: Run Snyk OSS scan
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    
       run: |
         npm install -g snyk
         snyk auth $SNYK_TOKEN
         snyk test --all-projects
-        snyk monitor --all-projects
+        snyk monitor --all-projects　 \
+        --severity-threshold=critical
 
   snyk_container_scan:
     name: Snyk Container Scan
@@ -42,7 +44,8 @@ jobs:
         npm install -g snyk
         snyk auth $SNYK_TOKEN
         snyk container test node:18.13.0
-        snyk container monitor node:18.13.0
+        snyk container monitor node:18.13.0 \
+        --severity-threshold=critical
       
       
       
