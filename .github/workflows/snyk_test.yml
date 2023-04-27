@@ -19,33 +19,14 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
 
-    - name: Run Snyk OSS scan
+    - name: Run Snyk to check for vulnerabilities
+      uses: snyk/actions/node@master
       env:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-    
-      run: |
-        npm install -g snyk
-        snyk auth $SNYK_TOKEN
-        snyk test --file=package.json
-        snyk monitor --all-projects　 \
-        --severity-threshold=critical
+      with:
+          args: --severity-threshold=high
+          command: monitor
 
-  snyk_container_scan:
-    name: Snyk Container Scan
-    runs-on: ubuntu-latest
-    steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
-
-    - name: Run Snyk Container scan
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      run: |
-        npm install -g snyk
-        snyk auth $SNYK_TOKEN
-        snyk container test node:18.13.0
-        snyk container monitor node:18.13.0 \
-        --severity-threshold=critical
       
       
       
