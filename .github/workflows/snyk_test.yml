@@ -7,7 +7,6 @@ on:
   pull_request:
     branches:
       - main
-
 jobs:
   snyk_oss_scan:
     name: Snyk OSS Scan
