@@ -20,13 +20,12 @@ jobs:
     - name: Install dependencies
       run: yarn
 
+    - name: Install Snyk CLI
+      run: npm install -g snyk
+    - name: Authenticate with Snyk
+      run: snyk auth ${{ secrets.SNYK_TOKEN }}
     - name: Run Snyk to check for vulnerabilities
-      uses: snyk/actions/node@v3
-      env:
-        SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-      with:
-          args: --severity-threshold=high
-          command: monitor
+      run: snyk monitor --severity-threshold=high --fail-on=upgradable
 
       
       
