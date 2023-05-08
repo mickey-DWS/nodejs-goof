@@ -1,5 +1,4 @@
 name: Snyk Vulnerability Scan
-
 on:
   push:
     branches:
@@ -8,25 +7,29 @@ on:
     branches:
       - main
 jobs:
-  snyk_oss_scan:
+  snyk_code_test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install and run Snyk Code test
+        run: |
+          npm install -g snyk
+          snyk auth ${{ secrets.SNYK_TOKEN }}
+          snyk code test 
+  Snyk_oss_scan:
     name: Snyk OSS Scan
     runs-on: ubuntu-latest
     steps:
-    - name: Check out repository
-      uses: actions/checkout@v2
-   
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-    - name: Install dependencies
-      run: yarn
-
-    - name: Install Snyk CLI
-      run: npm install -g snyk
-    - name: Authenticate with Snyk
-      run: snyk auth ${{ secrets.SNYK_TOKEN }}
-    - name: Run Snyk to check for vulnerabilities
-      run: snyk code test --severity-threshold=high --fail-on=upgradable
-
-      
-      
-      
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+      - name: Install dependencies
+        run: yarn
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+      - name: Authenticate with Snyk
+        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+      - name: Run Snyk to check for vulnerabilities
+        run: snyk code test --severity-threshold=high --fail-on=upgradable
