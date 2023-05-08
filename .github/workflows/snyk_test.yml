@@ -7,7 +7,8 @@ on:
     branches:
       - main
 jobs:
-  snyk_code_test:
+  Snyk_code_test:
+    name: Snyk Code Test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
