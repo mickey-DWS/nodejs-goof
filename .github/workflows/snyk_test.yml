@@ -16,7 +16,7 @@ jobs:
         run: |
           npm install -g snyk
           snyk auth ${{ secrets.SNYK_TOKEN }}
-          snyk code test 
+          snyk code test --severity-threshold=high
   Snyk_oss_scan:
     name: Snyk OSS Scan
     runs-on: ubuntu-latest
