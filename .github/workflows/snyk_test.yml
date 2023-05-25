@@ -21,7 +21,10 @@ jobs:
         with:
           path: "**/node_modules"
           key: ${{ runner.os }}-modules-${{ hashFiles('**/package-lock.json') }}
-
+      - name: npm ci
+        if: ${{ steps.node_modules_cache_id.outputs.cache-hit != 'true' }}
+        run: npm ci
+        
       - name: Authenticate with Snyk
         run: npx snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk Code and OSS to check for vulnerabilities
