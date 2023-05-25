@@ -15,22 +15,10 @@ jobs:
         uses: actions/checkout@v2
       - name: Set up Node.js
         uses: actions/setup-node@v2
-  
-      - name: Cache node modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-            ${{ runner.os }}-
-
-      - name: Install dependencies
-        run: npm ci
-        
-      - name: Authenticate with Snyk
-        run: npx snyk auth ${{ secrets.SNYK_TOKEN }}
       - name: Run Snyk Code and OSS to check for vulnerabilities
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         run: |
           npx snyk code test --severity-threshold=high
           npx snyk test --severity-threshold=critical --fail-on=upgradable
+
