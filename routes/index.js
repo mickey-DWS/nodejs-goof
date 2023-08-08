@@ -89,6 +89,15 @@ exports.admin = function (req, res, next) {
   });
 };
 
+exports.errorHandler = function (req, res, next) {
+  try {
+    // Some code that throws an error
+    throw new Error("This is a simulated error.");
+  } catch (e) {
+    res.send(`An error occurred: ${e.message}`);
+  }
+};
+
 exports.redirectUser = function (req, res, next) {
   var redirectTo = req.query.url;
   res.redirect(redirectTo);
