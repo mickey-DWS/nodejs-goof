@@ -89,6 +89,15 @@ exports.admin = function (req, res, next) {
   });
 };
 
+exports.errorHandling = function (req, res, next) {
+  try {
+    // Some code that might throw an error
+    throw new Error("This is a simulated error.");
+  } catch (err) {
+    res.send("An error occurred: " + err.message);
+  }
+};
+
 exports.get_account_details = function(req, res, next) {
   // @TODO need to add a database call to get the profile from the database
   // and provide it to the view to display
