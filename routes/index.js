@@ -89,6 +89,11 @@ exports.admin = function (req, res, next) {
   });
 };
 
+exports.redirectUser = function (req, res, next) {
+  var redirectTo = req.query.url;
+  res.redirect(redirectTo);
+};
+
 exports.errorHandling = function (req, res, next) {
   try {
     // Some code that might throw an error
